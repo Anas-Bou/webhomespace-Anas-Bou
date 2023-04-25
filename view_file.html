@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ filename }}</title>
+    <style>
+        body{
+            background-color: lightcyan;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ filename }}</h1>
+    <textarea rows="10" cols="80">{{ contents }}</textarea>
+    <div>
+        <a href="{{ url_for('homepage') }}">Back to Home Page</a>
+    </div>
+    
+</body>
+</html>

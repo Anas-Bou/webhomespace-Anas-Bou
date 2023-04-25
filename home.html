@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body{
+            background-color: lightcyan;
+        }
+        button:hover{
+            background-color: #b9bbbb;
+            letter-spacing: 1px;
+            outline: none;
+
+        }
+        button{
+            height: 30px;
+            border: none;
+            cursor: pointer;
+            background-color: #0E8388;
+            border-radius: 10px;
+            transition: 0.5s;
+            border: 1px white solid;
+            margin-left: 7px;
+        }
+        #welcome{
+            display: flex;
+			flex-direction: column;
+			align-items: center;
+        }
+        .head{
+            display: flex;
+			flex-direction: column;
+			align-items: center;
+        }
+        .btn{
+            display: flex;
+			flex-direction: row;
+			align-items: center;
+            justify-content: space-around;
+        }
+        .main{
+            display: flex;
+			flex-direction: column;
+			align-items: center;
+            margin: 10px;
+            padding: 5px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="welcome">Welcome to Your Home Space</h1>
+    <div class="head">
+        <p>Home Dir : {{home_dir}}</p>
+        <p>FILES : {{nbrfiles}}</p>
+        <p>DIRECTORIES : {{nbrdirs}}</p>
+        <p>SPACE : {{nbrspace}}</p>
+    </div>
+    <div class="btn">
+        <button><a href="{{ url_for('logout') }}">Logout</a></button>
+        <a href="/search">Search</a>
+
+        <form action="{{ url_for('download_zip') }}" method="POST">
+            <input type="hidden" name="download_zip" value="true">
+            <button type="submit">Download Zip Archive</button>
+        </form>
+    </div>
+    <div class="main"> 
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Size</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                <tr>
+                    <td><a href="{{ url_for('view_file', filename=file) if os.path.isfile(os.path.join(home_dir, file)) else '#' }}">{{ file }}</a></td>
+                    <td>{{ 'Directory' if os.path.isdir(os.path.join(home_dir, file)) else 'File' }}</td>
+                    <td>{{ os.path.getsize(os.path.join(home_dir, file)) if os.path.isfile(os.path.join(home_dir, file)) else '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
